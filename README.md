@@ -1,34 +1,74 @@
-# npm-react-typescript-template
+# Lystech Datagrid
 
-A template for publishing a React + TypeScript package to npm
+import DataGrid from 'lystech-datagrid'
 
-## How to use
+## Implementation
 
-Fork this repo, clone it to your local computer, and edit the `package.json` along with every other required file to match your project.
-Write the code for your package in TypeScript and Sass, compile it, and publish it to [npm](https://npmjs.com).
+<Datagrid 
 
-To compile your code once, run
+// Type string
+title="some title"
 
-- `npm run build`.
+// Type any
+dataSource={yourDatasource}
 
-To compile your code once and refresh on file change, run
+primaryKeyName={id}
 
-- `npm run start`.
+itemsPerPage={5}
 
-To publish your package to npm, make sure you're logged in the correct account by running
+getRowClass={(row) => {
+    // allows to return specific class based on row data
+}}
 
-- `npm login`.
+columns={{
+    // show all ?
+    all: true
 
-Compile your package by running
+    // allow searching on all columns
+    allowAllSearch: true
 
-- `npm run build`
+    // allow sorting on all columns
+    allowAllSorting: true
 
-Update the package version accordingly by using
+    // allow selection of row or not
+    allowSelection={true}
 
-- [`npm version [patch | minor | major]`](https://docs.npmjs.com/about-semantic-versioning)
+    // those are examples of properties you could have in your datasource 
+    // and 
+    // display as columns
+    email:{
+        // name of the column
+        label: "Email" ,
+        // override allowAllSorting and allowAllSearch
+        allowSorting: false,
 
-Then publish your package by running
+        getValueFunction: (row) => {
+            return row.email + " (Example email)"
+        }
+    }
+    someOtherProperty:{
+        label: "Hello World",
+    }
 
-- `npm publish`
+    globalCommandButtons={{
+        exportToCsv:{
+            // Label in the button
+            buttonText: "Export as CSV",
+            // The type for "value" to use in your logic. 
+            returnType: "selected",
+            // onClick, what to do with selected
+            onClickFunction: (value) => // Some function to export as CSV
+        }
+    }}
 
-### Happy Building ♡
+    hideColumns={
+        {
+        //override what columns to hide / not show
+        // example
+        username:true,
+        address:true
+        }
+    }
+    }
+}
+></Datagrid>
