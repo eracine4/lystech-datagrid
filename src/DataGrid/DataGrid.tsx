@@ -687,12 +687,7 @@ function generateRandomString(length: number) {
   function getEmptyTable(loading:boolean) {
     let headerCells = [];
 
-    let currentEmptyDatas = [
-
-      {
-        "fjkhsdkh": "No datas",
-      }
-    ]
+    let currentEmptyDatas : any = [{}];
 
     // Column Header **
 
@@ -1021,6 +1016,9 @@ function generateRandomString(length: number) {
   }
 
   function getShowColumn(column: any) {
+    
+    if (!columns || columns.length === 0 || !column)
+      return false;
     
     // check if columns has a property of column
     if (!columns.hasOwnProperty(column))
