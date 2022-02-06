@@ -10,31 +10,90 @@ const prevSymbol = "«"
 const minusSymbol = "➖"
 const plusSymbol = "➕"
 
-export default function DataGrid(props:any) {
+
+let ReturnTypeEnum = {selected: 0, all: 1, none: 2}
+interface globalCommandButton {
+  buttonText: string,
+  returnType?: typeof ReturnTypeEnum,
+  onClick?: any
+}
+
+interface commandButton{
+  name: string,
+  functionName: any
+}
+
+export default function DataGrid(props: {
+  title: string,
+  subTitle?: string,
+  showTitle?: boolean,
+
+  // Allows to see how many time the datagrid has been rendered for testing purposes
+  showUpdateCount?: boolean,
+  itemsPerPage: number,
+  dataSource: any[],
+  primaryKey: string,
+
+  // container
+  containerClass: any,
+
+  // Columns
+  otherColumns: any,
+  columns: any,
+  columnsOptions?: {
+    all: boolean,
+    allowAllSearch: boolean,
+    allowAllSorting: boolean,
+    hideColumnHeaders: boolean,
+  },
+  hideColumns?: any[],
+
+  // rows
+  isItemSelected: any,
+  onRowSelection: any,
+  getRowClass: any,
+  getSubContentFunction: any,
+  
+  // footer
+  getGridFooterContent: any,
+
+  // command buttons
+  commandButtons?: commandButton[],
+  globalCommandButtons?: globalCommandButton[],
+  
+  singleRowSelection?: boolean,
+  allowSelection?: boolean,
+  showCheckBoxes?: boolean,
+  index: number,
+
+  collapsed?: boolean,
+  canCollapse?: boolean,
+
+  ignoreFields?: any[],
+
+  isLoading?: boolean,
+
+}) {
 
   const ref = useRef(null);
   const [title] = useState(props.title)
-  const [showtitle] = useState(props.showtitle)
+  const [showtitle] = useState(props.showTitle)
   const [currentPage, setCurrentPageVar] = useState(0)
   const [itemsPerPage] = useState(props.itemsPerPage ? props.itemsPerPage : 10)
   const [allDatas, setAllDatas] = useState(props.dataSource)
   const [currentDatas, setCurrentDatas]:any = useState(undefined)
-  const [primaryKey, setPrimaryKey] = useState(props.primaryKeyName)
+  const [primaryKey, setPrimaryKey] = useState(props.primaryKey)
   const [columns] = useState(props.columns)
   const [columnsOptions] = useState(props.columnsOptions)
   const [otherColumns] = useState(props.otherColumns)
-  const [commandButtons] = useState(props.commandButtons)
-  // const [updateCommandButtonsInterval] = useState(undefined)
+
   const [allowSelection] = useState(props.allowSelection)
   const [showCheckBoxes] = useState(props.showCheckBoxes)
-  // const [user] = useState(props.user)
 
   const [elementIndex] = useState("datagrid_" + props.index)
 
   const [collapsed, setCollapsed] = useState(props.collapsed)
   const [canCollapse] = useState(props.canCollapse)
-  // const [index] = useState(props.index)
-  // const [searchableType] = useState("datagrid")
 
   const [globalCommandButtons] = useState(props.globalCommandButtons)
   const [sorting, setSorting]:any = useState({
@@ -47,10 +106,7 @@ export default function DataGrid(props:any) {
   const [rowsDatas , setRowsData]: any = useState(undefined)
   const [initialized, setInitialized] = useState(false)
 
-  const [onChangeValue] = useState(props.updateOnChangeTriggerValue)
-
   const [updateCount, setUpdateCount] = useState(0)
-  // const [checkDataInterval, setCheckDataInterval] = useState(undefined)
 
   useLayoutEffect(() => {
 
@@ -78,11 +134,6 @@ export default function DataGrid(props:any) {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props])
-
-  useEffect(() => {
-    forceUpdateGrid();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onChangeValue])
 
   useEffect(() => {
     forceUpdateGrid();
@@ -222,7 +273,7 @@ function generateRandomString(length: number) {
     );
   } else {
     return <>
-      {getEmptyTable(props.isLoading)}
+      {getEmptyTable(props.isLoading ? props.isLoading : false)}
     </>
   }
 
@@ -474,7 +525,7 @@ function generateRandomString(length: number) {
     // Column Header **
 
     // Command header cell **
-    if (commandButtons !== undefined) {
+    if (props.commandButtons !== undefined) {
       let classes = "header-cell ";
       if (!showtitle || !title) {
         classes += "last-header-cell";
@@ -581,9 +632,9 @@ function generateRandomString(length: number) {
 
       // Ajout des boutons de commande pour toutes les rangées
       let commandButtonsArray = [];
-      if (commandButtons !== undefined) {
-        for (var j = 0; j < commandButtons.length; j++) {
-          let commandButton = commandButtons[j];
+      if (props.commandButtons !== undefined) {
+        for (var j = 0; j < props.commandButtons.length; j++) {
+          let commandButton = props.commandButtons[j];
           let key = "dataGridCommandButton" + (j * iii) + elementIndex
           //key = UtilityFunctions.tryUniquifyKey(key)
           commandButtonsArray.push(
@@ -625,9 +676,9 @@ function generateRandomString(length: number) {
       }
     }
 
-    if (props.getLastRowContent) {
+    if (props.getGridFooterContent) {
       rows.push(
-        props.getLastRowContent(currentDatas)
+        props.getGridFooterContent(currentDatas)
       )
     }
 
@@ -692,7 +743,7 @@ function generateRandomString(length: number) {
     // Column Header **
 
     // Command header cell **
-    if (commandButtons !== undefined) {
+    if (props.commandButtons !== undefined) {
       let classes = "header-cell ";
       if (!showtitle || !title) {
         classes += "last-header-cell";
@@ -952,14 +1003,14 @@ function generateRandomString(length: number) {
 
   }
 
-  function toggleRowSelection(item: any) {
+  function toggleRowSelection(row: any) {
     if (!rowsDatas)
       return
-    if (item) {
+    if (row) {
       // check if item has property of the value of primaryKey
-      if (!item[primaryKey])
+      if (!row[primaryKey])
         return
-      let itemKey = item[primaryKey];
+      let itemKey = row[primaryKey];
 
       if (props.singleRowSelection) {
         let selectedRows = rowsDatas.filter((element: any) => element.selected && element[primaryKey] !== itemKey)
@@ -985,8 +1036,8 @@ function generateRandomString(length: number) {
 
       forceUpdateGrid()
 
-      if (props.onItemSelection) {
-        props.onItemSelection(item)
+      if (props.onRowSelection) {
+        props.onRowSelection(row)
       }
     }
 
@@ -1050,7 +1101,7 @@ function generateRandomString(length: number) {
       if (!showtitle)
         classes += " first-header-cell ";
     } else if (isPropertyLastUnignoredField(field)) {
-      if (commandButtons !== undefined) {
+      if (props.commandButtons !== undefined) {
       } else {
         if (!showtitle)
           classes += " last-header-cell ";
@@ -1190,7 +1241,7 @@ function generateRandomString(length: number) {
     let columnFieldDatas = otherColumns[f]
     if (columnFieldDatas?.hideHeader) {
       hideHeader = true
-    } else if (columnsOptions?.hideAllHeaders) {
+    } else if (columnsOptions?.hideColumnHeaders) {
       hideHeader = true
     }
     let classes = "header-cell "
@@ -1268,7 +1319,7 @@ function generateRandomString(length: number) {
     let columnFieldDatas = columns[field]
     if (columnFieldDatas?.hideHeader) {
       hideHeader = true
-    } else if (columnsOptions?.hideAllHeaders) {
+    } else if (columnsOptions?.hideColumnHeaders) {
       hideHeader = true
     }
     if (hideHeader) {
@@ -1374,7 +1425,7 @@ function generateRandomString(length: number) {
       }
     }
 
-    if (commandButtons !== undefined) {
+    if (props.commandButtons !== undefined) {
       fieldCount++;
     }
 
@@ -1404,7 +1455,7 @@ function generateRandomString(length: number) {
     }
     if (columns !== undefined) {
       for (var f in columns) {
-        if (hideColumns[f]) {
+        if (hideColumns && hideColumns[f]) {
         } else {
           emptyItem[f] = "";
         }
