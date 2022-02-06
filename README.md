@@ -4,6 +4,7 @@ import DataGrid from 'lystech-datagrid'
 
 ## Implementation
 
+```
 <Datagrid 
 
 // Type string
@@ -72,3 +73,5 @@ columns={{
     }
 }
 ></Datagrid>
+
+```
