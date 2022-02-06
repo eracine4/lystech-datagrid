@@ -1021,6 +1021,10 @@ function generateRandomString(length: number) {
   }
 
   function getShowColumn(column: any) {
+    
+    // check if columns has a property of column
+    if (!columns.hasOwnProperty(column))
+      return false;
 
     if (getHideColumn(column)) {
       return false;
