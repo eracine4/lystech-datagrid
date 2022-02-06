@@ -404,6 +404,14 @@ function generateRandomString(length: number) {
     );
   }
 
+  function showTitle() {
+    let hasTitle = props.title && props.title != "";
+    let showTitle = (props.showTitle === undefined && hasTitle) || (props.showTitle === true && hasTitle)
+
+
+    return showTitle;
+  }
+
   function updateCurrentDatas() {
     if (!allDatas)
       return;
@@ -528,7 +536,7 @@ function generateRandomString(length: number) {
     // Command header cell **
     if (props.commandButtons !== undefined) {
       let classes = "header-cell ";
-      if (!props.showTitle || !props.title) {
+      if (!showTitle()) {
         classes += "last-header-cell";
       }
 
@@ -683,7 +691,7 @@ function generateRandomString(length: number) {
       )
     }
 
-    let text = props.title && props.showTitle ? props.title : "";
+    let text = showTitle() ? props.title : "";
     if (props.showUpdateCount) {
       text += " " + updateCount
     }
@@ -699,7 +707,7 @@ function generateRandomString(length: number) {
     let globalCommandButtonsSection = globalCommandButtons ? getGlobalCommandButtonsSection() : <></>;
 
     let headerClasses = "header-row ";
-    if (!props.showTitle) {
+    if (!showTitle()) {
       headerClasses += "round-top ";
     }
 
@@ -746,7 +754,7 @@ function generateRandomString(length: number) {
     // Command header cell **
     if (props.commandButtons !== undefined) {
       let classes = "header-cell ";
-      if (!props.showTitle || !props.title) {
+      if (!showTitle()) {
         classes += "last-header-cell";
       }
 
@@ -810,14 +818,14 @@ function generateRandomString(length: number) {
       )
     }
 
-    let text = props.title && props.showTitle ? props.title : "";
+    let text = showTitle() ? props.title : "";
     if (props.showUpdateCount) {
       text += " " + updateCount
     }
     let gridTitle = <div className="grid-title">{text}   {collapsed}</div>
 
     let headerClasses = "header-row ";
-    if (!props.showTitle) {
+    if (!showTitle()) {
       headerClasses += "round-top ";
     }
 
@@ -1099,12 +1107,12 @@ function generateRandomString(length: number) {
   function getHeaderCellClasses(field: any) {
     let classes = " header-cell ";
     if (getPropertyPositionInUnignoredFields(field) === 0) {
-      if (!props.showTitle)
+      if (!showTitle())
         classes += " first-header-cell ";
     } else if (isPropertyLastUnignoredField(field)) {
       if (props.commandButtons !== undefined) {
       } else {
-        if (!props.showTitle)
+        if (!showTitle())
           classes += " last-header-cell ";
       }
     }
