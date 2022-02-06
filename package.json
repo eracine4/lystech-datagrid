@@ -1,10 +1,9 @@
 {
-  "name": "npm-react-typescript-template",
+  "name": "lystech-datagrid",
   "version": "1.0.0",
-  "description": "A template for publishing a React + TypeScript package to npm",
-  "author": "ovieokeh",
-  "license": "Apache-2.0",
-  "repository": "ovieokeh/npm-react-typescript-template",
+  "description": "A dynamic datagrid for REACTJS",
+  "author": "eracine",
+  "repository": "eracine4/lystech-datagrid",
   "main": "dist/index.js",
   "engines": {
     "node": ">=8",
@@ -14,7 +13,6 @@
     "build": "rollup -c",
     "start": "rollup -c -w"
   },
-  "dependencies": {},
   "peerDependencies": {
     "react": ">= 16.8.0 < 2",
     "react-dom": ">= 16.8.0 < 2"
@@ -29,7 +27,7 @@
     "rollup": "^1.29.0",
     "rollup-plugin-sass": "^1.2.2",
     "rollup-plugin-typescript2": "^0.25.3",
-    "typescript": "^2.8.3"
+    "typescript": "^4.6.0-beta"
   },
   "files": [
     "dist"

@@ -1,0 +1,30 @@
+$mobile-breakpoint: 576px;
+
+$side-nav-bar-width: 175px;
+$side-nav-bar-side-padding: 30px;
+$page-top-padding: 50px;
+
+$light-background-color: white;
+
+// Light mode
+$nav-bar-color: #2c2b2b;
+$order-page-red-color:#690500;
+$success-color: rgb(0, 68, 0);
+$warning-color: rgb(138, 106, 0);
+$error-color: #690500;
+$main-color: #16394e;
+$second-color: #004353;
+
+$nav-bar-width: 40vw;
+
+// Dark mode
+$dark-background-color: rgb(15, 15, 15);
+
+$nav-bar-color-dark: #1b1b1b;
+$order-page-red-color-dark:#690500;
+$success-color-dark: rgb(0, 68, 0);
+$warning-color-dark: rgb(138, 106, 0);
+$error-color-dark: #690500;
+
+$main-color-dark: #1b4864;
+$second-color-dark: #00708b;

@@ -1,10 +1,8 @@
-import * as React from 'react'
-import './styles.scss'
+import * as React from 'react';
+import Datagrid from './DataGrid/DataGrid';
 
-const Package: React.FC = () => (
-  <div className="package">
-    <h2>Do cool stuff</h2>
-  </div>
+const Package: React.FC = (_props:any) => (
+    <Datagrid _props></Datagrid>
 )
 
 export default Package
