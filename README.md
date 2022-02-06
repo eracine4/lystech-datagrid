@@ -58,7 +58,7 @@ columns={{
             // The type for "value" to use in your logic. 
             returnType: "selected",
             // onClick, what to do with selected
-            onClickFunction: (value) => // Some function to export as CSV
+            onClick: (value) => // Some function to export as CSV
         }
     }}
 

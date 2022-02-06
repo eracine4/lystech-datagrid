@@ -1079,7 +1079,7 @@ function generateRandomString(length: number) {
       //key = UtilityFunctions.tryUniquifyKey(key)
       let enabled = globalCommandButtons[b].getIsEnabledFunction ? globalCommandButtons[b].getIsEnabledFunction(returnValue) : true;
       let button = enabled ?
-        <div key={key} id={key} className="command-button" onClick={() => curButton.onClickFunction(returnValue)}>{curButton.buttonText}</div>
+        <div key={key} id={key} className="command-button" onClick={() => curButton.onClick(returnValue)}>{curButton.buttonText}</div>
         :
         <div key={key} id={key} className="disabled-command-button command-button">{curButton.buttonText}</div>
       buttons.push(button)
