@@ -7,71 +7,60 @@ import DataGrid from 'lystech-datagrid'
 ```
 <Datagrid 
 
-// Type string
-title="some title"
+// Accepted props
 
-// Type any
-dataSource={yourDatasource}
+  title: string,
+  subTitle?: string,
+  showTitle?: boolean,
 
-primaryKeyName={id}
+  // Allows to see how many time the datagrid has been rendered for testing purposes
+  showUpdateCount?: boolean,
+  itemsPerPage?: number,
+  dataSource: any[],
+  primaryKey: string,
 
-itemsPerPage={5}
+  // container
+  containerClass: any,
 
-getRowClass={(row) => {
-    // allows to return specific class based on row data
-}}
+  // Columns
+  otherColumns: any,
+  columns: any,
+  columnsOptions?: {
+    all: boolean,
+    allowAllSearch: boolean,
+    allowAllSorting: boolean,
+    hideColumnHeaders: boolean,
+  },
+  hideColumns?: any[],
 
-columns={{
-    // show all ?
-    all: true
+  // rows
+  isItemSelected: any,
+  onRowSelection: any,
+  getRowClass: any,
+  getSubContentFunction: any,
+  
+  // footer
+  getGridFooterContent: any,
 
-    // allow searching on all columns
-    allowAllSearch: true
+  // command buttons
+  commandButtons?: commandButton[],
+  globalCommandButtons?: globalCommandButton[],
+  
+  singleRowSelection?: boolean,
+  allowSelection?: boolean,
+  showCheckBoxes?: boolean,
+  index: number,
 
-    // allow sorting on all columns
-    allowAllSorting: true
+  // self explanatory
+  collapsed?: boolean,
+  canCollapse?: boolean,
 
-    // allow selection of row or not
-    allowSelection={true}
+  // completely ignore those fields
+  ignoreFields?: any[],
 
-    // those are examples of properties you could have in your datasource 
-    // and 
-    // display as columns
-    email:{
-        // name of the column
-        label: "Email" ,
-        // override allowAllSorting and allowAllSearch
-        allowSorting: false,
+  // can set dynamically if is loading
+  isLoading?: boolean,
 
-        getValueFunction: (row) => {
-            return row.email + " (Example email)"
-        }
-    }
-    someOtherProperty:{
-        label: "Hello World",
-    }
-
-    globalCommandButtons={{
-        exportToCsv:{
-            // Label in the button
-            buttonText: "Export as CSV",
-            // The type for "value" to use in your logic. 
-            returnType: "selected",
-            // onClick, what to do with selected
-            onClick: (value) => // Some function to export as CSV
-        }
-    }}
-
-    hideColumns={
-        {
-        //override what columns to hide / not show
-        // example
-        username:true,
-        address:true
-        }
-    }
-    }
-}
 ></Datagrid>
 
 ```

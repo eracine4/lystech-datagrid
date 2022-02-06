@@ -30,7 +30,7 @@ export default function DataGrid(props: {
 
   // Allows to see how many time the datagrid has been rendered for testing purposes
   showUpdateCount?: boolean,
-  itemsPerPage: number,
+  itemsPerPage?: number,
   dataSource: any[],
   primaryKey: string,
 
@@ -66,22 +66,23 @@ export default function DataGrid(props: {
   showCheckBoxes?: boolean,
   index: number,
 
+  // self explanatory
   collapsed?: boolean,
   canCollapse?: boolean,
 
+  // completely ignore those fields
   ignoreFields?: any[],
 
+  // can set dynamically if is loading
   isLoading?: boolean,
 
 }) {
 
   const ref = useRef(null);
-  const [title] = useState(props.title)
-  const [showtitle] = useState(props.showTitle)
   const [currentPage, setCurrentPageVar] = useState(0)
   const [itemsPerPage] = useState(props.itemsPerPage ? props.itemsPerPage : 10)
   const [allDatas, setAllDatas] = useState(props.dataSource)
-  const [currentDatas, setCurrentDatas]:any = useState(undefined)
+  const [currentDatas, setCurrentDatas]: any[] = useState(undefined)
   const [primaryKey, setPrimaryKey] = useState(props.primaryKey)
   const [columns] = useState(props.columns)
   const [columnsOptions] = useState(props.columnsOptions)
@@ -527,7 +528,7 @@ function generateRandomString(length: number) {
     // Command header cell **
     if (props.commandButtons !== undefined) {
       let classes = "header-cell ";
-      if (!showtitle || !title) {
+      if (!props.showTitle || !props.title) {
         classes += "last-header-cell";
       }
 
@@ -682,7 +683,7 @@ function generateRandomString(length: number) {
       )
     }
 
-    let text = title && showtitle ? title : "";
+    let text = props.title && props.showTitle ? props.title : "";
     if (props.showUpdateCount) {
       text += " " + updateCount
     }
@@ -698,7 +699,7 @@ function generateRandomString(length: number) {
     let globalCommandButtonsSection = globalCommandButtons ? getGlobalCommandButtonsSection() : <></>;
 
     let headerClasses = "header-row ";
-    if (!showtitle) {
+    if (!props.showTitle) {
       headerClasses += "round-top ";
     }
 
@@ -745,7 +746,7 @@ function generateRandomString(length: number) {
     // Command header cell **
     if (props.commandButtons !== undefined) {
       let classes = "header-cell ";
-      if (!showtitle || !title) {
+      if (!props.showTitle || !props.title) {
         classes += "last-header-cell";
       }
 
@@ -809,14 +810,14 @@ function generateRandomString(length: number) {
       )
     }
 
-    let text = title && showtitle ? title : "";
+    let text = props.title && props.showTitle ? props.title : "";
     if (props.showUpdateCount) {
       text += " " + updateCount
     }
     let gridTitle = <div className="grid-title">{text}   {collapsed}</div>
 
     let headerClasses = "header-row ";
-    if (!showtitle) {
+    if (!props.showTitle) {
       headerClasses += "round-top ";
     }
 
@@ -1098,12 +1099,12 @@ function generateRandomString(length: number) {
   function getHeaderCellClasses(field: any) {
     let classes = " header-cell ";
     if (getPropertyPositionInUnignoredFields(field) === 0) {
-      if (!showtitle)
+      if (!props.showTitle)
         classes += " first-header-cell ";
     } else if (isPropertyLastUnignoredField(field)) {
       if (props.commandButtons !== undefined) {
       } else {
-        if (!showtitle)
+        if (!props.showTitle)
           classes += " last-header-cell ";
       }
     }
