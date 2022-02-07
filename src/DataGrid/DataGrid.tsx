@@ -52,6 +52,7 @@ export default function DataGrid(props: {
 
   // rows
   isItemSelected: any,
+  isItemInEditMode: any,
   onRowCellClick: any,
   onRowCellDoubleClick: any,
   onRowCellTripleClick: any,
@@ -69,6 +70,7 @@ export default function DataGrid(props: {
   singleRowSelection?: boolean,
   allowSelection?: boolean,
   showCheckBoxes?: boolean,
+  allowEdition?: boolean,
   index: number,
 
   // self explanatory
@@ -95,6 +97,7 @@ export default function DataGrid(props: {
 
   const [allowSelection] = useState(props.allowSelection)
   const [showCheckBoxes] = useState(props.showCheckBoxes)
+  const [allowEdition] = useState(props.allowEdition)
 
   const [elementIndex] = useState("datagrid_" + props.index)
 
@@ -234,7 +237,8 @@ function generateRandomString(length: number) {
           {
             primaryKeyValue: allDatas[i][primaryKey],
             datas: allDatas[i],
-            selected: false
+            selected: false,
+            inEditMode: false
           }
         )
       }
@@ -507,7 +511,7 @@ function generateRandomString(length: number) {
 
     // Selection **
     let curItem = allDatas[0];
-    if (allowSelection && showCheckBoxes) {
+    if (allowEdition || (allowSelection && showCheckBoxes)) {
       let headerField = getSelectionHeaderCellContent();
       headerCells.push(headerField);
     }
@@ -568,8 +572,8 @@ function generateRandomString(length: number) {
       let rowCells = [];
       let curRow:any = currentDatas[iii];
 
-      if (allowSelection && showCheckBoxes) {
-        let fieldValue = getCheckboxValueCellContent(curRow);
+      if (allowEdition || (allowSelection && showCheckBoxes)) {
+        let fieldValue = getSelectionEditionColumnCellContent(curRow);
         let classes = "data-cell check-box-cell ";
 
         if (isItemSelected(curRow)) {
@@ -995,6 +999,19 @@ function generateRandomString(length: number) {
     return false;
   }
 
+  function isItemInEditMode(item: any) {
+    let rowDatas = getRowsDatas(item);
+
+    if (props.isItemInEditMode) {
+      return props.isItemInEditMode(item)
+    }
+
+    if (rowDatas !== undefined) {
+      return rowDatas.inEditMode;
+    }
+    return false;
+  }
+
   function getRowsDatas(item: any) {
     if (!rowsDatas || rowsDatas.length === 0 || !item)
       return
@@ -1013,6 +1030,30 @@ function generateRandomString(length: number) {
       }
     } catch (error) {
       return undefined;
+    }
+  }
+
+  function onEditButtonClick(row: any) {
+    if (!rowsDatas)
+      return
+    if (row) {
+      if (!row[primaryKey])
+        return
+      
+        let itemKey = row[primaryKey];
+
+        let rowData = rowsDatas.find((element: any) => element.primaryKeyValue === itemKey);
+      if (rowData) {
+        rowData.inEditMode = !rowData.inEditMode;
+        // in rowsDatas, replace the item with the same primaryKeyValue as rowData by rowData
+        let index = rowsDatas.indexOf(rowsDatas.find((x: any) => x.primaryKeyValue === rowData.primaryKeyValue))
+        rowsDatas[index] = rowData;
+      } else {
+        console.log("rowData not found")
+      }
+      setRowsData(rowsDatas)
+
+      forceUpdateGrid()
     }
   }
 
@@ -1207,10 +1248,18 @@ function generateRandomString(length: number) {
     return <th key={key} id={key} className="header-cell selection-header"><div ></div></th>
   }
 
-  function getCheckboxValueCellContent(item: any) {
+  function getSelectionEditionColumnCellContent(item: any) {
     if (rowsDatas !== undefined) {
+      let content = []
       let selected = isItemSelected(item);
-      return <input type="checkbox" onChange={() => onRowCellClick(1,item)} checked={selected}></input>
+      if(allowSelection && showCheckBoxes)
+      content.push(<input type="checkbox" onChange={() => onRowCellClick(1, item)} checked={selected}></input>)
+      if (allowEdition) {
+        let inEditMode = isItemInEditMode(item)
+        content.push(<button onClick={() => onEditButtonClick(item)}>{inEditMode ? "Terminer" : "Modifier" }</button>)
+      }
+
+      return content
     } else {
       return <input type="checkbox" onChange={() => onRowCellClick(1,item)} checked={false}></input>
     }
