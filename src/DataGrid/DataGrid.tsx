@@ -23,6 +23,8 @@ interface commandButton{
   functionName: any
 }
 
+let clickTimeout: any = undefined
+
 export default function DataGrid(props: {
   title: string,
   subTitle?: string,
@@ -1045,24 +1047,36 @@ function generateRandomString(length: number) {
 
       forceUpdateGrid()
 
+      // if e.detail is 1,2 or 3
+      if (e.detail === 1 || e.detail === 2 || e.detail === 3)
+      {
+        clearTimeout(clickTimeout);
+      }
+
       switch (e.detail) {
         case 1:
-          if (props.onRowSelection) {
-            props.onRowSelection(row)
-          }
-          if (props.onRowCellClick) {
-            props.onRowCellClick(row, field)
-          }
+          clickTimeout = setTimeout(() => {
+            if (props.onRowSelection) {
+              props.onRowSelection(row)
+            }
+            if (props.onRowCellClick) {
+              props.onRowCellClick(row, field)
+            }
+          }, 50)
           break;
-          case 2:
-          if (props.onRowCellDoubleClick) {
-            props.onRowCellDoubleClick(row, field)
-          }
+        case 2:
+          clickTimeout = setTimeout(() => {
+            if (props.onRowCellDoubleClick) {
+              props.onRowCellDoubleClick(row, field)
+            }
+          }, 50)
           break;
-          case 3:
-          if (props.onRowCellTripleClick) {
-            props.onRowCellTripleClick(row, field)
-          }
+        case 3:
+          clickTimeout = setTimeout(() => {
+            if (props.onRowCellTripleClick) {
+              props.onRowCellTripleClick(row, field)
+            }
+          }, 50)
           break;
       }
     }

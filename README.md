@@ -35,10 +35,13 @@ import DataGrid from 'lystech-datagrid'
 
   // rows
   isItemSelected: any,
-  onRowSelection: any,
   getRowClass: any,
   getSubContentFunction: any,
-  
+  onRowSelection: any,
+  onRowCellClick: any,
+  onRowCellDoubleClick: any,
+  onRowCellTripleClick: any,
+
   // footer
   getGridFooterContent: any,
 
