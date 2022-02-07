@@ -640,6 +640,7 @@ export default function DataGrid(props: {
         if (getShowColumn(ff)) {
           let fieldValue = getDataCellContent(curRow, curRow[ff], ff)
           let cellRealValue = getDataCellValue(curRow, ff)
+          let curCellField = ff
 
           let classes = getDataCellClasses(ff)
 
@@ -659,9 +660,11 @@ export default function DataGrid(props: {
               rowCells.push(
                 <td id={key} className={classes}>
                   <input
-                    onChange={(e) =>
-                      props.onRowEdition(curRow, cellRealValue, e.target.value)
-                    }
+                    onChange={(e) => {
+                      let newRow = { ...curRow }
+                      newRow[curCellField] = e.target.value
+                      props.onRowEdition(newRow, cellRealValue, e.target.value)
+                    }}
                     type="text"
                     defaultValue={curRow[ff]}
                   ></input>
