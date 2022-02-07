@@ -659,7 +659,7 @@ export default function DataGrid(props: {
                 <td id={key} className={classes}>
                   <input
                     onChange={(e) =>
-                      props.onRowEdition(curRow, curRow[ff], e.target.value)
+                      props.onRowEdition(curRow, ff, e.target.value)
                     }
                     type="text"
                     defaultValue={curRow[ff]}
