@@ -50,6 +50,9 @@ export default function DataGrid(props: {
 
   // rows
   isItemSelected: any,
+  onRowCellClick: any,
+  onRowCellDoubleClick: any,
+  onRowCellTripleClick: any,
   onRowSelection: any,
   getRowClass: any,
   getSubContentFunction: any,
@@ -561,18 +564,18 @@ function generateRandomString(length: number) {
     for (var iii = 0; iii < currentDatas.length; iii++) {
 
       let rowCells = [];
-      let curItem:any = currentDatas[iii];
+      let curRow:any = currentDatas[iii];
 
       if (allowSelection && showCheckBoxes) {
-        let fieldValue = getCheckboxValueCellContent(curItem);
+        let fieldValue = getCheckboxValueCellContent(curRow);
         let classes = "data-cell check-box-cell ";
 
-        if (isItemSelected(curItem)) {
+        if (isItemSelected(curRow)) {
           classes += " selected-row";
         }
 
         if (props.getRowClass) {
-          classes += " " + props.getRowClass(curItem) + " ";
+          classes += " " + props.getRowClass(curRow) + " ";
         }
 
         let key = "td_checkbox_" + iii + elementIndex
@@ -580,18 +583,18 @@ function generateRandomString(length: number) {
         let style = { "maxWidth": "20px" }
         classes += additonnalClasses
         rowCells.push(
-          <td key={key} id={key} className={classes} style={style}>{fieldValue}</td>
+          <td key={key} id={key} className={classes} style={style} onClick={(e) => onRowCellClick(e, curRow,fieldValue)}>{fieldValue}</td>
         );
       }
 
       let ii = 0;
       let columnCount = 0
-      let isRowSelected = isItemSelected(curItem)
-      for (var ff in curItem) {
+      let isRowSelected = isItemSelected(curRow)
+      for (var ff in curRow) {
         let otherField = tryGetOtherColumnForIndexPosition(columnCount)
         if (otherField) {
 
-          let row = getColumnOtherColumnCellContent(curItem, columnCount, otherField)
+          let row = getColumnOtherColumnCellContent(curRow, columnCount, otherField)
           rowCells.push(row)
 
           columnCount++
@@ -600,7 +603,7 @@ function generateRandomString(length: number) {
         ii++;
         if (getShowColumn(ff)) {
 
-          let fieldValue = getDataCellValue(curItem, curItem[ff], ff);
+          let fieldValue = getDataCellValue(curRow, curRow[ff], ff);
 
           let classes = getDataCellClasses(ff);
 
@@ -609,7 +612,7 @@ function generateRandomString(length: number) {
           }
 
           if (props.getRowClass) {
-            classes += " " + props.getRowClass(curItem) + " ";
+            classes += " " + props.getRowClass(curRow) + " ";
           }
 
 
@@ -618,7 +621,7 @@ function generateRandomString(length: number) {
 
           if (allowSelection) {
             rowCells.push(
-              <td id={key} onClick={(() => toggleRowSelection(curItem))} className={classes}>{fieldValue}</td>
+              <td id={key}  onClick={(e) => onRowCellClick(e, curRow,fieldValue)} className={classes}>{fieldValue}</td>
             )
           } else {
             rowCells.push(
@@ -634,7 +637,7 @@ function generateRandomString(length: number) {
       let cellCount = 0;
       for (var g in otherCells) {
         let cell = otherCells[g]
-        let row = getColumnOtherColumnCellContent(curItem, cellCount, cell)
+        let row = getColumnOtherColumnCellContent(curRow, cellCount, cell)
         rowCells.push(row)
         cellCount++
       }
@@ -647,7 +650,7 @@ function generateRandomString(length: number) {
           let key = "dataGridCommandButton" + (j * iii) + elementIndex
           //key = UtilityFunctions.tryUniquifyKey(key)
           commandButtonsArray.push(
-            <div key={key} id={key} className="command-button " onClick={() => commandButton.functionName(curItem)}>{commandButton.name}</div>
+            <div key={key} id={key} className="command-button " onClick={() => commandButton.functionName(curRow)}>{commandButton.name}</div>
           )
 
           key = "td_commandbutton_" + (j * iii + elementIndex)
@@ -673,8 +676,8 @@ function generateRandomString(length: number) {
       )
 
       if (props.getSubContentFunction) {
-        let selected = isItemSelected(curItem)
-        let subContent = props.getSubContentFunction(curItem, selected)
+        let selected = isItemSelected(curRow)
+        let subContent = props.getSubContentFunction(curRow, selected)
         let containerClasses = selected ? "sub-content-container selected-row" : "sub-content-container";
         if (subContent) {
           rows.push(
@@ -745,7 +748,7 @@ function generateRandomString(length: number) {
   }
 
   function getEmptyTable(loading:boolean) {
-    let headerCells = [];
+    let emptyHeaderCells = [];
 
     let currentEmptyDatas : any = [{}];
 
@@ -760,7 +763,7 @@ function generateRandomString(length: number) {
 
       let key = "headerCell_" + elementIndex
 
-      headerCells.push(
+      emptyHeaderCells.push(
         <th key={key} id={key} className={classes}>Command</th>
       )
     }
@@ -771,14 +774,14 @@ function generateRandomString(length: number) {
 
     for (var i = 0; i < currentEmptyDatas.length; i++) {
 
-      let curItem = currentEmptyDatas[i];
+      let curEmptyItem = currentEmptyDatas[i];
 
-      let rowCells = [];
+      let emptyRowCells = [];
 
       let ii = 0;
       let label = loading ? "Loading..." : "Aucune donnée";
       let loadingIcon = loading ? <div className="lds-dual-ring"></div> : <></>;
-      for (var ff in curItem) {
+      for (var ff in curEmptyItem) {
 
         // Value Cells SELECTION
         ii++;
@@ -786,7 +789,7 @@ function generateRandomString(length: number) {
           if (getShowColumn(ff)) {
             let key = "td_selected_checkbox_" + elementIndex + "_" + (ii * i)
             key = getUniqueElementID()
-            rowCells.push(
+            emptyRowCells.push(
               <td id={key} className="no-data-empty-cell">
                 {loadingIcon}
               </td>
@@ -796,7 +799,7 @@ function generateRandomString(length: number) {
           if (getShowColumn(ff)) {
             let key = "td_selected_checkbox_" + elementIndex + "_" + (ii * i)
             key =getUniqueElementID()
-            rowCells.push(
+            emptyRowCells.push(
               <td id={key} className="no-data-empty-cell">
                 {label}
               </td>
@@ -809,7 +812,7 @@ function generateRandomString(length: number) {
 
       let row = (
         <tr id={key}>
-          {rowCells}
+          {emptyRowCells}
         </tr>
       )
 
@@ -853,7 +856,7 @@ function generateRandomString(length: number) {
             <table className="grid-table">
               <tbody>
                 <tr key={key} id={key} className={headerClasses}>
-                  {headerCells}
+                  {emptyHeaderCells}
                 </tr>
                 {currentEmptyDatas.length > 0 ? rows : <></>}
               </tbody>
@@ -1009,10 +1012,9 @@ function generateRandomString(length: number) {
     } catch (error) {
       return undefined;
     }
-
   }
 
-  function toggleRowSelection(row: any) {
+  function onRowCellClick(e: any,row: any, field?: any) {
     if (!rowsDatas)
       return
     if (row) {
@@ -1030,8 +1032,6 @@ function generateRandomString(length: number) {
           }
       }
 
-
-
       let rowData = rowsDatas.find((element: any) => element.primaryKeyValue === itemKey);
       if (rowData) {
         rowData.selected = !rowData.selected;
@@ -1045,11 +1045,27 @@ function generateRandomString(length: number) {
 
       forceUpdateGrid()
 
-      if (props.onRowSelection) {
-        props.onRowSelection(row)
+      switch (e.detail) {
+        case 1:
+          if (props.onRowSelection) {
+            props.onRowSelection(row)
+          }
+          if (props.onRowCellClick) {
+            props.onRowCellClick(row, field)
+          }
+          break;
+          case 2:
+          if (props.onRowCellDoubleClick) {
+            props.onRowCellDoubleClick(row, field)
+          }
+          break;
+          case 3:
+          if (props.onRowCellTripleClick) {
+            props.onRowCellTripleClick(row, field)
+          }
+          break;
       }
     }
-
   }
 
   function getAllowSorting(field: any) {
@@ -1180,9 +1196,9 @@ function generateRandomString(length: number) {
   function getCheckboxValueCellContent(item: any) {
     if (rowsDatas !== undefined) {
       let selected = isItemSelected(item);
-      return <input type="checkbox" onChange={() => toggleRowSelection(item)} checked={selected}></input>
+      return <input type="checkbox" onChange={() => onRowCellClick(1,item)} checked={selected}></input>
     } else {
-      return <input type="checkbox" onChange={() => toggleRowSelection(item)} checked={false}></input>
+      return <input type="checkbox" onChange={() => onRowCellClick(1,item)} checked={false}></input>
     }
   }
 
