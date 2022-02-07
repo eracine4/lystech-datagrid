@@ -589,7 +589,7 @@ function generateRandomString(length: number) {
         let style = { "maxWidth": "20px" }
         classes += additonnalClasses
         rowCells.push(
-          <td key={key} id={key} className={classes} style={style} onClick={(e) => onRowCellClick(e, curRow,fieldValue)}>{fieldValue}</td>
+          <td key={key} id={key} className={classes} style={style} >{fieldValue}</td>
         );
       }
 
