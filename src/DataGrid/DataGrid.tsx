@@ -231,6 +231,7 @@ export default function DataGrid(props: {
           datas: allDatas[i],
           selected: false,
           inEditMode: false,
+          tempValue: undefined,
         })
       }
       setRowsData(allDatasRows)
@@ -757,7 +758,7 @@ export default function DataGrid(props: {
     }
 
     if (props.getGridFooterContent) {
-      rows.push(props.getGridFooterContent(currentDatas))
+      rows.push(props.getGridFooterContent(allDatas,currentDatas))
     }
 
     let text = showTitle() ? props.title : ''
@@ -1059,11 +1060,11 @@ export default function DataGrid(props: {
     return -1
   }
 
-  function isItemSelected(item: any) {
-    let rowDatas = getRowsDatas(item)
+  function isItemSelected(row: any) {
+    let rowDatas = getRowsDatas(row)
 
     if (props.isItemSelected) {
-      return props.isItemSelected(item)
+      return props.isItemSelected(row)
     }
 
     if (rowDatas !== undefined) {
@@ -1072,11 +1073,11 @@ export default function DataGrid(props: {
     return false
   }
 
-  function isItemInEditMode(item: any) {
-    let rowDatas = getRowsDatas(item)
+  function isItemInEditMode(row: any) {
+    let rowDatas = getRowsDatas(row)
 
     if (props.isItemInEditMode) {
-      return props.isItemInEditMode(item)
+      return props.isItemInEditMode(row)
     }
 
     if (rowDatas !== undefined) {
@@ -1085,13 +1086,13 @@ export default function DataGrid(props: {
     return false
   }
 
-  function getRowsDatas(item: any) {
-    if (!rowsDatas || rowsDatas.length === 0 || !item) return
+  function getRowsDatas(row: any) {
+    if (!rowsDatas || rowsDatas.length === 0 || !row) return
 
     if (rowsDatas.length <= 0) return
 
     try {
-      let itemKey = item[primaryKey]
+      let itemKey = row[primaryKey]
       let found = rowsDatas.find(
         (element: any) => element?.primaryKeyValue === itemKey
       )
