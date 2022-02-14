@@ -56,7 +56,7 @@ export default function DataGrid(props: {
   onRowCellDoubleClick?: any
   onRowCellTripleClick?: any
   onRowSelection?: any
-  getRowClass?: (currentRow: any) => string
+  getRowClass?: (currentRow: any) => any
   getSubContentFunction?: (currentRow: any, selectedRow: any) => any
 
   // footer
