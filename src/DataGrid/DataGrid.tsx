@@ -36,10 +36,10 @@ export default function DataGrid(props: {
   primaryKey: string
 
   // container
-  containerClass: any
+  containerClass?: any
 
   // Columns
-  otherColumns: any
+  otherColumns?: any
   columns: any
   columnsOptions?: {
     all: boolean
@@ -50,17 +50,17 @@ export default function DataGrid(props: {
   hideColumns?: any[]
 
   // rows
-  isItemSelected: any
-  isItemInEditMode: any
-  onRowCellClick: any
-  onRowCellDoubleClick: any
-  onRowCellTripleClick: any
-  onRowSelection: any
-  getRowClass: (currentRow: any) => string
-  getSubContentFunction: (currentRow: any, selectedRow: any) => any
+  isItemSelected?: any
+  isItemInEditMode?: any
+  onRowCellClick?: any
+  onRowCellDoubleClick?: any
+  onRowCellTripleClick?: any
+  onRowSelection?: any
+  getRowClass?: (currentRow: any) => string
+  getSubContentFunction?: (currentRow: any, selectedRow: any) => any
 
   // footer
-  getGridFooterContent: (allDatas:any , currentDatas:any) => any
+  getGridFooterContent?: (allDatas:any , currentDatas:any) => any
 
   // command buttons
   commandButtons?: commandButton[]
