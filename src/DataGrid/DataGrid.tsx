@@ -56,11 +56,11 @@ export default function DataGrid(props: {
   onRowCellDoubleClick: any
   onRowCellTripleClick: any
   onRowSelection: any
-  getRowClass: any
-  getSubContentFunction: any
+  getRowClass: (currentRow: any) => string
+  getSubContentFunction: (currentRow: any, selectedRow: any) => any
 
   // footer
-  getGridFooterContent: any
+  getGridFooterContent: (allDatas:any , currentDatas:any) => any
 
   // command buttons
   commandButtons?: commandButton[]
