@@ -60,7 +60,7 @@ export default function DataGrid(props: {
   getSubContentFunction?: (currentRow: any, selectedRow: any) => any
 
   // footer
-  getGridFooterContent?: (allDatas:any , currentDatas:any) => any
+  getGridFooterContent?: (datas: { allDatas: any; currentDatas: any }) => any
 
   // command buttons
   commandButtons?: commandButton[]
@@ -758,7 +758,7 @@ export default function DataGrid(props: {
     }
 
     if (props.getGridFooterContent) {
-      rows.push(props.getGridFooterContent(allDatas,currentDatas))
+      rows.push(props.getGridFooterContent({ allDatas, currentDatas }))
     }
 
     let text = showTitle() ? props.title : ''
