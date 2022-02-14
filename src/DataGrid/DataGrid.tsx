@@ -758,7 +758,8 @@ export default function DataGrid(props: {
     }
 
     if (props.getGridFooterContent) {
-      rows.push(props.getGridFooterContent({ allDatas, currentDatas }))
+      let datas = { allDatas, currentDatas }
+      rows.push(props.getGridFooterContent(datas))
     }
 
     let text = showTitle() ? props.title : ''
