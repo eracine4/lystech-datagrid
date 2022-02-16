@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import './DataGrid.scss'
+import IDatagridProps from './IDatagridProps'
 
 const ascSymbol = '🠹'
 const descSymbol = '🠻'
@@ -10,80 +11,11 @@ const prevSymbol = '«'
 const minusSymbol = '➖'
 const plusSymbol = '➕'
 
-let ReturnTypeEnum = { selected: 0, all: 1, none: 2 }
-interface globalCommandButton {
-  buttonText: string
-  returnType?: typeof ReturnTypeEnum
-  onClick?: any
-}
 
-interface commandButton {
-  name: string
-  functionName: any
-}
 
 let clickTimeout: any = undefined
 
-export default function DataGrid(props: {
-  title: string
-  subTitle?: string
-  showTitle?: boolean
-
-  // Allows to see how many time the datagrid has been rendered for testing purposes
-  showUpdateCount?: boolean
-  itemsPerPage?: number
-  dataSource: any[]
-  primaryKey: string
-
-  // container
-  containerClass?: any
-
-  // Columns
-  otherColumns?: any
-  columns: any
-  columnsOptions?: {
-    all: boolean
-    allowAllSearch: boolean
-    allowAllSorting: boolean
-    hideColumnHeaders: boolean
-  }
-  hideColumns?: any[]
-
-  // rows
-  isItemSelected?: any
-  isItemInEditMode?: any
-  onRowCellClick?: any
-  onRowCellDoubleClick?: any
-  onRowCellTripleClick?: any
-  onRowSelection?: any
-  getRowClass?: (currentRow: any) => any
-  getSubContentFunction?: (currentRow: any, selectedRow: any) => any
-
-  // footer
-  getGridFooterContent?: (datas: { allDatas: any; currentDatas: any }) => any
-
-  // command buttons
-  commandButtons?: commandButton[]
-  globalCommandButtons?: globalCommandButton[]
-
-  singleRowSelection?: boolean
-  allowSelection?: boolean
-  showCheckBoxes?: boolean
-  allowEdition?: boolean
-  onRowEdition?: any
-
-  index: number
-
-  // self explanatory
-  collapsed?: boolean
-  canCollapse?: boolean
-
-  // completely ignore those fields
-  ignoreFields?: any[]
-
-  // can set dynamically if is loading
-  isLoading?: boolean
-}) {
+export default function DataGrid(props: IDatagridProps) {
   const ref = useRef(null)
   const [currentPage, setCurrentPageVar] = useState(0)
   const [itemsPerPage] = useState(props.itemsPerPage ? props.itemsPerPage : 10)
