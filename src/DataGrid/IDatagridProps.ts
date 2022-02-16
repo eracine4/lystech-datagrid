@@ -28,7 +28,7 @@ export default interface IDatagridProps {
     allowAllSorting: boolean
     hideColumnHeaders: boolean
   }
-  hideColumns?: any[] | undefined
+  hideColumns?: any
 
   // rows
   isItemSelected?: any
