@@ -1,11 +1,5 @@
 let ReturnTypeEnum = { selected: 0, all: 1, none: 2 }
 
-interface globalCommandButton {
-  buttonText: string
-  returnType?: typeof ReturnTypeEnum
-  onClick?: any
-}
-
 interface commandButton {
   name: string
   functionName: any
@@ -19,7 +13,7 @@ export default interface IDatagridProps {
   // Allows to see how many time the datagrid has been rendered for testing purposes
   showUpdateCount?: boolean
   itemsPerPage?: number
-  dataSource: any[]
+  dataSource: any[] | undefined
   primaryKey: string
 
   // container
@@ -34,7 +28,7 @@ export default interface IDatagridProps {
     allowAllSorting: boolean
     hideColumnHeaders: boolean
   }
-  hideColumns?: any[]
+  hideColumns?: any[] | undefined
 
   // rows
   isItemSelected?: any
@@ -51,7 +45,7 @@ export default interface IDatagridProps {
 
   // command buttons
   commandButtons?: commandButton[]
-  globalCommandButtons?: globalCommandButton[]
+  globalCommandButtons?: any[] | any
 
   singleRowSelection?: boolean
   allowSelection?: boolean
