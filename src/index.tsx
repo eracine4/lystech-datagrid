@@ -1,10 +1,9 @@
-import * as React from 'react';
-import Datagrid from './DataGrid/DataGrid';
+import * as React from 'react'
+import Datagrid from './DataGrid/DataGrid'
+import IDatagridProps from './DataGrid/IDatagridProps'
 
-const Package: React.FC = (props:any) => {
-    return (
-        <Datagrid {...props}></Datagrid>
-    );
+const Package = (props: IDatagridProps) => {
+  return <Datagrid {...props}></Datagrid>
 }
 
 export default Package
