@@ -154,12 +154,12 @@ export default function DataGrid(props: IDatagridProps) {
 
     if (allDatas?.length > 0) {
       for (let i = 0; i < allDatas.length; i++) {
-        if (!allDatas[i] || !allDatas[i][primaryKey]) {
+        if (!allDatas[i] || !allDatas[i]["rowID"]) {
           break
         }
 
         allDatasRows.push({
-          // rowID: allDatas[i][primaryKey],
+          // rowID: allDatas[i]["rowID"],
           rowID: 'rowID_' + i,
           datas: allDatas[i],
           selected: false,
@@ -1026,7 +1026,7 @@ export default function DataGrid(props: IDatagridProps) {
     if (rowsDatas.length <= 0) return
 
     try {
-      let itemKey = row[primaryKey]
+      let itemKey = row["rowID"]
       let found = rowsDatas.find((element: any) => element?.rowID === itemKey)
       if (found) {
         let rowDatas = found
@@ -1042,9 +1042,9 @@ export default function DataGrid(props: IDatagridProps) {
   function onEditButtonClick(row: any) {
     if (!rowsDatas) return
     if (row) {
-      if (!row[primaryKey]) return
+      if (!row["rowID"]) return
 
-      let itemKey = row[primaryKey]
+      let itemKey = row["rowID"]
 
       let rowData = rowsDatas.find((element: any) => element.rowID === itemKey)
       if (rowData) {
@@ -1067,12 +1067,12 @@ export default function DataGrid(props: IDatagridProps) {
     if (!rowsDatas) return
     if (row) {
       // check if item has property of the value of primaryKey
-      if (!row[primaryKey]) return
-      let itemKey = row[primaryKey]
+      if (!row["rowID"]) return
+      let itemKey = row["rowID"]
 
       if (props.singleRowSelection) {
         let selectedRows = rowsDatas.filter(
-          (element: any) => element.selected && element[primaryKey] !== itemKey
+          (element: any) => element.selected && element["rowID"] !== itemKey
         )
 
         if (selectedRows)
