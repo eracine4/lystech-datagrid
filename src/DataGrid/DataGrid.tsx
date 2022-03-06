@@ -154,7 +154,7 @@ export default function DataGrid(props: IDatagridProps) {
 
     if (allDatas?.length > 0) {
       for (let i = 0; i < allDatas.length; i++) {
-        if (!allDatas[i] || !allDatas[i]["rowID"]) {
+        if (!allDatas[i] || !allDatas[i]['rowID']) {
           break
         }
 
@@ -1026,7 +1026,7 @@ export default function DataGrid(props: IDatagridProps) {
     if (rowsDatas.length <= 0) return
 
     try {
-      let itemKey = row["rowID"]
+      let itemKey = row['rowID']
       let found = rowsDatas.find((element: any) => element?.rowID === itemKey)
       if (found) {
         let rowDatas = found
@@ -1042,9 +1042,9 @@ export default function DataGrid(props: IDatagridProps) {
   function onEditButtonClick(row: any) {
     if (!rowsDatas) return
     if (row) {
-      if (!row["rowID"]) return
+      if (!row['rowID']) return
 
-      let itemKey = row["rowID"]
+      let itemKey = row['rowID']
 
       let rowData = rowsDatas.find((element: any) => element.rowID === itemKey)
       if (rowData) {
@@ -1067,12 +1067,12 @@ export default function DataGrid(props: IDatagridProps) {
     if (!rowsDatas) return
     if (row) {
       // check if item has property of the value of primaryKey
-      if (!row["rowID"]) return
-      let itemKey = row["rowID"]
+      if (!row['rowID']) return
+      let itemKey = row['rowID']
 
       if (props.singleRowSelection) {
         let selectedRows = rowsDatas.filter(
-          (element: any) => element.selected && element["rowID"] !== itemKey
+          (element: any) => element.selected && element['rowID'] !== itemKey
         )
 
         if (selectedRows)
@@ -1642,9 +1642,9 @@ export default function DataGrid(props: IDatagridProps) {
     let result = true
     if (Object.keys(fields).length > 0) {
       for (var ff in fields) {
-        let dataVal = data[ff].toString().toLowerCase()
-        let searchVal = searchParams[ff].toString().toLowerCase()
-        if (dataVal.includes(searchVal)) {
+        let dataVal = data[ff]?.toString()?.toLowerCase()
+        let searchVal = searchParams[ff]?.toString()?.toLowerCase()
+        if (dataVal?.includes(searchVal)) {
         } else {
           result = false
         }
