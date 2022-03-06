@@ -1630,6 +1630,7 @@ export default function DataGrid(props: IDatagridProps) {
 
   function getFilteredDatasForSearchParams(data?: any) {
     let fields = {}
+    let result = true
 
     if (searchParams !== undefined) {
       if (data) {
@@ -1645,16 +1646,15 @@ export default function DataGrid(props: IDatagridProps) {
           }
         }
       }
-    }
 
-    let result = true
-    if (Object.keys(fields).length > 0) {
-      for (var ff in fields) {
-        let dataVal = data[ff]?.toString()?.toLowerCase()
-        let searchVal = searchParams[ff]?.toString()?.toLowerCase()
-        if (dataVal?.includes(searchVal)) {
-        } else {
-          result = false
+      if (Object.keys(fields).length > 0) {
+        for (var ff in fields) {
+          let dataVal = data[ff]?.toString()?.toLowerCase()
+          let searchVal = searchParams[ff]?.toString()?.toLowerCase()
+          if (dataVal?.includes(searchVal)) {
+          } else {
+            result = false
+          }
         }
       }
     }
