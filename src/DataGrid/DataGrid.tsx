@@ -11,15 +11,13 @@ const prevSymbol = '«'
 const minusSymbol = '➖'
 const plusSymbol = '➕'
 
-
-
 let clickTimeout: any = undefined
 
 export default function DataGrid(props: IDatagridProps) {
   const ref = useRef(null)
   const [currentPage, setCurrentPageVar] = useState(0)
   const [itemsPerPage] = useState(props.itemsPerPage ? props.itemsPerPage : 10)
-  const [allDatas, setAllDatas] = useState(props.dataSource)
+  const [allDatas, setAllDatas] = useState<any>(props.dataSource)
   const [currentDatas, setCurrentDatas]: any[] = useState(undefined)
   const [primaryKey, setPrimaryKey] = useState(props.primaryKey)
   const [columns] = useState(props.columns)
@@ -156,10 +154,13 @@ export default function DataGrid(props: IDatagridProps) {
 
     if (allDatas?.length > 0) {
       for (let i = 0; i < allDatas.length; i++) {
-        if (!allDatas[i] || !allDatas[i][primaryKey]) break
+        if (!allDatas[i] || !allDatas[i][primaryKey]) {
+          break
+        }
 
         allDatasRows.push({
-          primaryKeyValue: allDatas[i][primaryKey],
+          // rowID: allDatas[i][primaryKey],
+          rowID: 'rowID_' + i,
           datas: allDatas[i],
           selected: false,
           inEditMode: false,
@@ -1026,9 +1027,7 @@ export default function DataGrid(props: IDatagridProps) {
 
     try {
       let itemKey = row[primaryKey]
-      let found = rowsDatas.find(
-        (element: any) => element?.primaryKeyValue === itemKey
-      )
+      let found = rowsDatas.find((element: any) => element?.rowID === itemKey)
       if (found) {
         let rowDatas = found
         return rowDatas
@@ -1047,16 +1046,12 @@ export default function DataGrid(props: IDatagridProps) {
 
       let itemKey = row[primaryKey]
 
-      let rowData = rowsDatas.find(
-        (element: any) => element.primaryKeyValue === itemKey
-      )
+      let rowData = rowsDatas.find((element: any) => element.rowID === itemKey)
       if (rowData) {
         rowData.inEditMode = !rowData.inEditMode
-        // in rowsDatas, replace the item with the same primaryKeyValue as rowData by rowData
+        // in rowsDatas, replace the item with the same rowID as rowData by rowData
         let index = rowsDatas.indexOf(
-          rowsDatas.find(
-            (x: any) => x.primaryKeyValue === rowData.primaryKeyValue
-          )
+          rowsDatas.find((x: any) => x.rowID === rowData.rowID)
         )
         rowsDatas[index] = rowData
       } else {
@@ -1086,16 +1081,12 @@ export default function DataGrid(props: IDatagridProps) {
           }
       }
 
-      let rowData = rowsDatas.find(
-        (element: any) => element.primaryKeyValue === itemKey
-      )
+      let rowData = rowsDatas.find((element: any) => element.rowID === itemKey)
       if (rowData) {
         rowData.selected = !rowData.selected
-        // in rowsDatas, replace the item with the same primaryKeyValue as rowData by rowData
+        // in rowsDatas, replace the item with the same rowID as rowData by rowData
         let index = rowsDatas.indexOf(
-          rowsDatas.find(
-            (x: any) => x.primaryKeyValue === rowData.primaryKeyValue
-          )
+          rowsDatas.find((x: any) => x.rowID === rowData.rowID)
         )
         rowsDatas[index] = rowData
       } else {
