@@ -17,12 +17,7 @@ export default function DataGrid(props: IDatagridProps) {
   const ref = useRef(null)
   const [currentPage, setCurrentPageVar] = useState(0)
   const [itemsPerPage] = useState(props.itemsPerPage ? props.itemsPerPage : 10)
-  const [allData, setAllData] = useState<any>(
-    props.dataSource?.map((item: any, index: number) => {
-      item.rowID = 'rowID_' + index
-      return item
-    })
-  )
+  const [allData, setAllData] = useState<any>(undefined)
   const [currentData, setCurrentData]: any[] = useState(undefined)
   const [columns] = useState(props.columns)
   const [columnsOptions] = useState(props.columnsOptions)
@@ -64,7 +59,16 @@ export default function DataGrid(props: IDatagridProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+
+
   useEffect(() => {
+
+    let allD = props.dataSource?.map((item: any, index: number) => {
+      item.rowID = 'rowID_' + index
+      return item
+    })
+    setAllData(allD)
+
     initializeDatas()
     setInitialized(true)
 
