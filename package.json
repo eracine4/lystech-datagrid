@@ -1,10 +1,11 @@
 {
   "name": "lystech-datagrid",
-  "version": "1.0.40",
+  "version": "1.1.0",
   "description": "A basic datagrid for ReactJS",
   "author": "eracine",
   "repository": "eracine4/lystech-datagrid",
   "main": "dist/index.js",
+  "type": "module",
   "engines": {
     "node": ">=8",
     "npm": ">=5"

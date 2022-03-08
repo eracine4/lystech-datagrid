@@ -1,6 +1,6 @@
 /* CSS RESET */
 
-@import './../variables.scss';
+@import './variables.scss';
 
 /* http://meyerweb.com/eric/tools/css/reset/ 
    v2.0 | 20110126
@@ -43,15 +43,6 @@ $tableBreakpoint: 820px;
 
 
 @media all and (max-width: $tableBreakpoint) {
-
-    table,
-    thead,
-    tbody,
-    th,
-    td,
-    tr {
-        // display: block !important;
-    }
 
     .last-cell {
         padding-bottom: 20px;
@@ -458,12 +449,6 @@ tr:hover .data-cell {
     padding: 5px 15px;
 }
 
-.grid-table {
-    // padding-bottom: 14px;
-    // border-bottom: 1px dashed rgba(0, 0, 0, 0.254);
-    // background-color: white;
-}
-
 .grid-title-container {
     display: flex;
     flex-direction: column;
@@ -755,8 +740,6 @@ tr {
         .check-box-cell {
             display: none;
         }
-
-        .top-down-group {}
     }
 }
 

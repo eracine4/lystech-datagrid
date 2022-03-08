@@ -1,5 +1,3 @@
-let ReturnTypeEnum = { selected: 0, all: 1, none: 2 }
-
 interface commandButton {
   name: string
   functionName: any
