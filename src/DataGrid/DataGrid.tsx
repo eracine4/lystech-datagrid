@@ -212,9 +212,11 @@ export default function DataGrid(props: IDatagridProps) {
     if (!allDatas || allDatas?.length <= 0) {
       return <></>
     }
-    let filteredDataLenght = allDatas
-      ?.slice()
-      ?.filter(getFilteredDatasForSearchParams)?.length
+    let slicedAllData = allDatas?.slice()
+    console.log('slicedAllData', slicedAllData)
+    let filteredDataLenght = slicedAllData?.filter(
+      getFilteredDatasForSearchParams
+    )?.length
     let pages = filteredDataLenght > 0 ? filteredDataLenght / itemsPerPage : 0
 
     if (pages > 1) {
@@ -392,7 +394,9 @@ export default function DataGrid(props: IDatagridProps) {
     let endIndex = startIndex + itemsPerPage
 
     // Sorting -> getting items from direction of asc or desc a-z, 0-9, etc..
-    let newArray = allDatas?.slice()?.filter(getFilteredDatasForSearchParams)
+    let slicedAllData = allDatas?.slice()
+    console.log('slicedAllData', slicedAllData)
+    let newArray = slicedAllData?.filter(getFilteredDatasForSearchParams)
 
     if (sorting.field !== '' && sorting.direction !== '') {
       if (sorting.direction === 'asc') {
@@ -446,7 +450,9 @@ export default function DataGrid(props: IDatagridProps) {
         })
       }
     } else {
-      newArray = allDatas.slice().filter(getFilteredDatasForSearchParams)
+      let slicedAllData = allDatas?.slice()
+      console.log('slicedAllData', slicedAllData)
+      newArray = slicedAllData.filter(getFilteredDatasForSearchParams)
     }
     // Sorting *****
 
