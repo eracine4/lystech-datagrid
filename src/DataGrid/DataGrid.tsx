@@ -158,6 +158,8 @@ export default function DataGrid(props: IDatagridProps) {
           break
         }
 
+        allDatas[i]["rowID"] = 'rowID_' + i
+
         allDatasRows.push({
           // rowID: allDatas[i]["rowID"],
           rowID: 'rowID_' + i,
